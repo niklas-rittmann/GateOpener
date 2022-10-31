@@ -1,0 +1,13 @@
+version: "3.1"
+
+services:
+  backend:
+    image: gate_opener:${TAG:-0.0.1}
+    build:
+      context: .
+      dockerfile: ci/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - GPIOZERO_PIN_FACTORY=mock
+      - GATE_PIN=2

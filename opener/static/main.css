@@ -1,0 +1,50 @@
+* {
+  text-transform: uppercase;
+}
+
+body,
+html {
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  color: white;
+  background-color: black;
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.head {
+  width: 100%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+.title {
+  width: 20%;
+}
+
+.status {
+  text-align: right;
+  width: 80%;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.butt {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  background-color: #262626;
+  padding: 32px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  color: white;
+  margin-top: 15px;
+}
