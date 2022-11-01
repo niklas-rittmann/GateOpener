@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-import main
+from opener import main
 import pytest
 
 
