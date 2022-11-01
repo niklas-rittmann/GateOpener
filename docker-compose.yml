@@ -3,6 +3,7 @@ version: "3.1"
 services:
   backend:
     image: gate_opener:${TAG:-0.0.1}
+    platform: linux/arm/v7
     build:
       context: .
       dockerfile: ci/backend/Dockerfile
