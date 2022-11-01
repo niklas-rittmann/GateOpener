@@ -16,7 +16,7 @@ Connect your controllable switch to the raspberry pi and your device. By default
 ### 🏁 Starting the app
 By default the app runs on port 8000. You can change the port using `BACKEND_PORT`.
 ```bash
-docker run --device /dev/gpiomem -p 80:80 -d --env GATE_PIN=2 --env BACKEND_PORT=80 gate_opener:0.0.1
+docker run --device /dev/gpiomem -p 80:80 -d --env GATE_PIN=2 --env BACKEND_PORT=80 niklasrittmann/gate_opener:0.0.1
 ```
 ## 🚧 Roadmap
 - [ ] Enable Https
