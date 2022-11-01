@@ -14,7 +14,7 @@ dev-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes --dev -o ci/backend/dev-requirements.txt
 
 build-backend: # Build the backend image
-	docker buildx build --platform=linux/arm/v7 -t gate_opener:${TAG} -f ci/backend/Dockerfile .
+	docker buildx build --platform=linux/arm/v7,linux/amd64 -t gate_opener:${TAG} -f ci/backend/Dockerfile .
 
 tests: # Run test and calc coverage
 	coverage run -m pytest test
