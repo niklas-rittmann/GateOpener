@@ -1,4 +1,4 @@
-FROM arm32v7/python:3.10.8-slim-buster as base
+FROM python:3.10.8-slim-buster as base
 
 WORKDIR /opt/gate
 
