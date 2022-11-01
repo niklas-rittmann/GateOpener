@@ -12,6 +12,7 @@ jobs:
       - name: Run tests in image
         run: docker-compose run backend make tests
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
