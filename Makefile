@@ -10,6 +10,9 @@ install-requirements: # Install all python deps
 export-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes -o ci/backend/requirements.txt
 
+dev-requirements: install-requirements # Export the app requirements to ci/
+	poetry export --without-hashes --dev -o ci/backend/dev-requirements.txt
+
 build-backend: # Build the backend image
 	docker build -t  gate_opener:${TAG} -f ci/backend/Dockerfile .
 

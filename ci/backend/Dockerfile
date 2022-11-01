@@ -1,4 +1,4 @@
-FROM arm32v7/python:3.10.8-slim-buster
+FROM arm32v7/python:3.10.8-slim-buster as BASE
 
 WORKDIR /opt/gate
 
@@ -19,3 +19,11 @@ COPY ./opener ./opener
 
 # Run guincorn
 CMD ["venv/bin/gunicorn", "opener.main:app", "-c", "gunicorn_conf.py"]
+
+FROM BASE as TESTING
+
+# Install aditional test requs
+COPY ci/backend/dev-requirements.txt ./dev-requirements.txt
+
+# Install dev requirements
+RUN venv/bin/pip install -r dev-requirements.txt 
