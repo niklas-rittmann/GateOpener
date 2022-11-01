@@ -12,6 +12,6 @@ jobs:
       - uses: actions/setup-python@v2
       - uses: pre-commit/action@v2.0.3
       - name: Build test image
-        run: docker-compose build backend
+        run: make build-backend
       - name: Run tests in image
         run: docker-compose run backend make tests
