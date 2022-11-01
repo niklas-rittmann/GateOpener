@@ -1,6 +1,9 @@
-FROM python:3.10.8-slim-buster
+FROM arm32v7/python:3.10.8-slim-buster
 
 WORKDIR /opt/gate
+
+# Install installation requirements
+RUN apt-get update && apt-get install -y build-essential
 
 # Copy over requirements
 COPY ci/backend/requirements.txt ./requirements.txt
