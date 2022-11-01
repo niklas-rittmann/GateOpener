@@ -32,4 +32,4 @@ COPY ci/backend/dev-requirements.txt Makefile .
 
 # Install dev requirements
 RUN apt-get install make -y \
-&& venv/bin/pip install -r dev-requirements.txt 
+&& venv/bin/pip install -r dev-requirements.txt

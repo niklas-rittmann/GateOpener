@@ -1,6 +1,7 @@
-from fastapi.testclient import TestClient
-from opener import main
 import pytest
+from fastapi.testclient import TestClient
+
+from opener import main
 
 
 @pytest.fixture(scope="session")

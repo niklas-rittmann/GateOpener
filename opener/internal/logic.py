@@ -1,5 +1,6 @@
-from gpiozero import LED
 from time import sleep
+
+from gpiozero import LED
 
 from opener.internal.env import Envs
 

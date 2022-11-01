@@ -1,9 +1,9 @@
 from enum import Enum
+
 from fastapi import APIRouter, Request
-
 from pydantic import BaseModel
-from opener.internal.env import TEMPLATES_DIR
 
+from opener.internal.env import TEMPLATES_DIR
 from opener.internal.logic import trigger_gate
 
 

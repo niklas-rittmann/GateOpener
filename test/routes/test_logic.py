@@ -17,4 +17,4 @@ def test_trigger_gate_status(monkeypatch) -> None:
     monkeypatch.setattr(logic, "SWITCH", switch)
 
     logic.trigger_gate()
-    assert switch.state == False
+    assert switch.state is False
