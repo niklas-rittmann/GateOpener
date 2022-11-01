@@ -2,7 +2,8 @@ name: tests
 on: push
 env:
   # Target stage in docker build
-  TARGET: testing
+  - TARGET: testing
+  - DOCKER_DEFAULT_PLATFORM: linux/arm/v7
 jobs:
   test:
     runs-on: ubuntu-latest
