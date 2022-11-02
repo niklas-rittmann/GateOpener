@@ -21,8 +21,8 @@ login: build-backend # Login to docker
 	echo ${DOCKER_PWD} | docker login -u ${DOCKER_USER} --password-stdin
 
 push: login # Push to docker registry
-	docker tag gate_opener:${TAG} ${{ DOCKER_USER }}/gate_opener:${TAG}
-	docker push ${{ DOCKER_USER }}/gate_opener:${TAG}
+	docker tag gate_opener:${TAG} ${DOCKER_USER}/gate_opener:${TAG}
+	docker push ${DOCKER_USER}/gate_opener:${TAG}
 
 login-test:
 	echo ${DOCKER_PWD} | docker login -u ${DOCKER_USER} --password-stdin
