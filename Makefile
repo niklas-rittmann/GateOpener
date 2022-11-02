@@ -18,11 +18,14 @@ build-backend: # Build the backend image
 	docker buildx build --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t gate_opener:${TAG} -f ci/backend/Dockerfile .
 
 login: build-backend # Login to docker
-	echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+	echo ${ secrets.DOCKER_PWD } | docker login -u ${ secrets.DOCKER_USER } --password-stdin
 
 push: login # Push to docker registry
 	docker tag gate_opener:${TAG} ${{ secrets.DOCKER_USER }}/gate_opener:${TAG}
 	docker push ${{ secrets.DOCKER_USER }}/gate_opener:${TAG}
+
+login-test:
+	echo ${ secrets.DOCKER_PWD } | docker login -u ${ secrets.DOCKER_USER } --password-stdin
 
 tests: # Run test and calc coverage
 	coverage run -m pytest test
