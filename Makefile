@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
-TAG := 0.0.1
-TARGET := base
+TAG ?= 0.0.1
+TARGET ?= base
 
 run-server: # Run the server locally using uvicorn
 	uvicorn opener.main:app --reload
