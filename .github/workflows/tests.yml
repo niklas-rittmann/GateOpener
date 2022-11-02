@@ -1,5 +1,8 @@
 name: tests
 on: push
+env:
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PWD: ${{ secrets.DOCKER_PWD }}
 jobs:
   test:
     runs-on: ubuntu-latest
