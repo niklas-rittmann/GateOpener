@@ -14,11 +14,11 @@ export-requirements: install-requirements # Export the app requirements to ci/
 dev-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes --dev -o ci/backend/dev-requirements.txt
 
-build-backend: # Build the backend image
-	docker buildx build --push --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t ${DOCKER_USER}/gate_opener:${TAG} -f ci/backend/Dockerfile .
-
-push: build-backend # Login to docker
+login: # Loginto docker registry
 	echo ${DOCKER_PWD} | docker login -u ${DOCKER_USER} --password-stdin
+
+push: login # Build and push image to registry
+	docker buildx build --push --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t ${DOCKER_USER}/gate_opener:${TAG} -f ci/backend/Dockerfile .
 
 tests: # Run test and calc coverage
 	coverage run -m pytest test
