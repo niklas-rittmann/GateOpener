@@ -11,7 +11,7 @@ jobs:
       - uses: pre-commit/action@v2.0.3
       - name: Run tests in image
         run:
-          echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin \
+          echo "${{ secrets.DOCKER_PWD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin \
           && docker-compose run backend make tests
   build:
     needs: test
