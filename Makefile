@@ -15,16 +15,9 @@ dev-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes --dev -o ci/backend/dev-requirements.txt
 
 build-backend: # Build the backend image
-	docker buildx build --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t gate_opener:${TAG} -f ci/backend/Dockerfile .
+	docker buildx build --push --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t ${DOCKER_USER}/gate_opener:${TAG} -f ci/backend/Dockerfile .
 
-login: build-backend # Login to docker
-	echo ${DOCKER_PWD} | docker login -u ${DOCKER_USER} --password-stdin
-
-push: login # Push to docker registry
-	docker tag gate_opener:${TAG} ${DOCKER_USER}/gate_opener:${TAG}
-	docker push ${DOCKER_USER}/gate_opener:${TAG}
-
-login-test:
+push: build-backend # Login to docker
 	echo ${DOCKER_PWD} | docker login -u ${DOCKER_USER} --password-stdin
 
 tests: # Run test and calc coverage
