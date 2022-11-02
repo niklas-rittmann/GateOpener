@@ -11,8 +11,6 @@ jobs:
       TARGET: testing
     steps:
       - uses: actions/checkout@v2
-      - name: Test login
-        run: make login-test
       - uses: pre-commit/action@v2.0.3
       - name: Run tests in image
         run: docker-compose run backend make tests
@@ -20,9 +18,6 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    env:
-      # Target stage in docker build
-      TARGET: base
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
