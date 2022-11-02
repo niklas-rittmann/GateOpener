@@ -10,7 +10,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: pre-commit/action@v2.0.3
       - name: Run tests in image
-        run: docker-compose run backend make tests
+        run:
+          echo ${ secrets.DOCKER_PWD } | docker login -u ${ secrets.DOCKER_USER } --password-stdin \
+          && docker-compose run backend make tests
   build:
     needs: test
     runs-on: ubuntu-latest
