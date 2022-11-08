@@ -7,6 +7,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic.main import BaseModel
+from sqlalchemy.orm.session import Session
+from starlette.requests import Request
+
+from opener.internal.database import User, engine, get_db
 
 SECRET_KEY = "050ac200bf94cbe14cd61e7353f5a21782912d3a978c7266a3173b0a793e6ace"
 ALGORITHM = "HS256"
@@ -32,8 +36,11 @@ class UserInDB(BaseModel):
     username: str
     hashed_password: str
 
+    class Config:
+        orm_mode = True
 
-def authenticate_user(db, username: str, password: str) -> UserInDB:
+
+def authenticate_user(db: Session, username: str, password: str) -> UserInDB:
     """Check if user exists in db and is a valid user"""
     user = get_user(db, username)
     if not verify_password(password, user.hashed_password):
@@ -41,10 +48,11 @@ def authenticate_user(db, username: str, password: str) -> UserInDB:
     return user
 
 
-def get_user(db, username: str | None) -> UserInDB:
+def get_user(db: Session, username: str | None) -> UserInDB:
     """Fetch user from db"""
-    if username in db:
-        return UserInDB(**db[username])
+    user = db.query(User).filter(User.username == username).first()
+    if user:
+        return UserInDB.from_orm(user)
     raise INCORRECT_USERNAME_OR_PASSWORD
 
 
@@ -63,7 +71,9 @@ def create_access_token(data: dict[str, str | datetime]) -> str:
     return encoded_jwt
 
 
-async def check_current_user(db, token: str = Depends(oauth2_scheme)):
+async def check_current_user(
+    db: Session = Depends(get_db), token: str | None = Depends(oauth2_scheme)
+):
     """Check if the token matches a saved user"""
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -71,3 +81,13 @@ async def check_current_user(db, token: str = Depends(oauth2_scheme)):
         raise CREDENTIALS_EXCEPTION
     username = payload.get("sub")
     return get_user(db, username)
+
+
+async def logged_in(request: Request) -> bool:
+    try:
+        token = await oauth2_scheme(request)
+        with Session(engine) as db:
+            await check_current_user(db=db, token=token)
+        return True
+    except HTTPException:
+        return False
