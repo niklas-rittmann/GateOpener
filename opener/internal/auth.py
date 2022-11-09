@@ -8,9 +8,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic.main import BaseModel
 from sqlalchemy.orm.session import Session
-from starlette.requests import Request
 
-from opener.internal.database import User, engine, get_db
+from opener.internal.database import User, get_db
 
 SECRET_KEY = "050ac200bf94cbe14cd61e7353f5a21782912d3a978c7266a3173b0a793e6ace"
 ALGORITHM = "HS256"
@@ -40,17 +39,6 @@ class UserInDB(BaseModel):
         orm_mode = True
 
 
-def create_token(db: Session, username: str, password: str) -> dict[str, str]:
-    user = authenticate_user(db, username, password)
-    access_token = create_access_token(
-        data={
-            "sub": user.username,
-            "exp": datetime.utcnow() + timedelta(days=7),
-        }
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
-
 def authenticate_user(db: Session, username: str, password: str) -> UserInDB:
     """Check if user exists in db and is a valid user"""
     user = get_user(db, username)
@@ -76,8 +64,12 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def create_access_token(data: dict[str, str | datetime]) -> str:
+def create_access_token(username: str) -> str:
     """Create a access token for the user"""
+    data = {
+        "sub": username,
+        "exp": datetime.utcnow() + timedelta(days=7),
+    }
     encoded_jwt = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
@@ -92,13 +84,3 @@ async def check_current_user(
         raise CREDENTIALS_EXCEPTION
     username = payload.get("sub")
     return get_user(db, username)
-
-
-async def logged_in(request: Request) -> bool:
-    try:
-        token = await oauth2_scheme(request)
-        with Session(engine) as db:
-            await check_current_user(db=db, token=token)
-        return True
-    except HTTPException:
-        return False
