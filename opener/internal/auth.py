@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from fastapi import status
 from fastapi.exceptions import HTTPException
@@ -40,6 +40,17 @@ class UserInDB(BaseModel):
         orm_mode = True
 
 
+def create_token(db: Session, username: str, password: str) -> dict[str, str]:
+    user = authenticate_user(db, username, password)
+    access_token = create_access_token(
+        data={
+            "sub": user.username,
+            "exp": datetime.utcnow() + timedelta(days=7),
+        }
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 def authenticate_user(db: Session, username: str, password: str) -> UserInDB:
     """Check if user exists in db and is a valid user"""
     user = get_user(db, username)
@@ -73,7 +84,7 @@ def create_access_token(data: dict[str, str | datetime]) -> str:
 
 async def check_current_user(
     db: Session = Depends(get_db), token: str | None = Depends(oauth2_scheme)
-):
+) -> UserInDB:
     """Check if the token matches a saved user"""
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

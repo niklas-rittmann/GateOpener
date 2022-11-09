@@ -3,7 +3,7 @@ from enum import Enum
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 
-from opener.internal.auth import check_current_user, logged_in
+from opener.internal.auth import check_current_user
 from opener.internal.env import TEMPLATES_DIR
 from opener.internal.logic import trigger_gate
 
@@ -31,9 +31,7 @@ router = APIRouter(
 async def index(
     request: Request,
 ):
-    if await logged_in(request):
-        return TEMPLATES_DIR.TemplateResponse("index.html", {"request": request})
-    return "Nicht eingeloggr"
+    return TEMPLATES_DIR.TemplateResponse("index.html", {"request": request})
 
 
 @router.post("/", response_model=TriggerResp)
