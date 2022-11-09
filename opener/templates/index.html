@@ -26,20 +26,68 @@
         <div id="trigger" class="butt">Trigger Opener</div>
       </div>
     </div>
+    <div id="ovrly"></div>
+    <div id="login">
+      <form>
+        <input type="text" placeholder="Username" id="username" />
+        <input type="password" placeholder="Password" id="password" />
+        <input type="button" value="LogIn" id="login-button" />
+      </form>
+    </div>
   </body>
 </html>
 
 <script>
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      url: location.origin + "/refresh",
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      dataType: "json",
+      success: function (data) {
+        localStorage.setItem("token", data["access_token"]);
+        $("#ovrly").hide();
+        $("#login").hide();
+      },
+    });
+  });
+
   $(document).ready(function () {
     $("#trigger").click(function () {
       $.ajax({
         type: "POST",
         url: location.origin,
         contentType: "application/json; charset=utf-8",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
         dataType: "json",
         data: JSON.stringify({ action: "trigger" }),
         success: function () {
-          $("#message").text("Erfolgreich");
+          $("#message").text("Success");
+        },
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    $("#login-button").click(function () {
+      var fd = new FormData();
+      fd.append("username", $("#username").val());
+      fd.append("password", $("#password").val());
+      $.ajax({
+        url: location.origin + "/token",
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: "POST",
+        success: function (data) {
+          localStorage.setItem("token", data["access_token"]);
+          $("#ovrly").hide();
+          $("#login").hide();
         },
       });
     });

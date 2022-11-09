@@ -10,6 +10,25 @@ html {
   color: white;
   background-color: black;
 }
+input {
+  background-color: #262626;
+  width: 90%;
+  height: 40pt;
+  margin: 10px;
+  color: white;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: none;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 
 .content {
   width: 90%;
@@ -47,4 +66,21 @@ html {
   font-size: 18px;
   color: white;
   margin-top: 15px;
+}
+#login {
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  text-align: center;
+  position: absolute;
+  left: 25%;
+  top: 10%;
+}
+#ovrly {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  opacity: 0.9;
 }
