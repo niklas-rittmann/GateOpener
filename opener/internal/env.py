@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi.templating import Jinja2Templates
@@ -8,6 +9,7 @@ class Envs(BaseSettings):
     """Wrapper for environmental infos"""
 
     gate_pin: int
+    secret_key: str = os.popen("openssl rand -hex 32").read().strip()
 
     class Config:
         env_file = ".env"

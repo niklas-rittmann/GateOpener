@@ -10,8 +10,6 @@ install-requirements: # Install all python deps
 
 export-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes -o ci/backend/requirements.txt
-
-dev-requirements: install-requirements # Export the app requirements to ci/
 	poetry export --without-hashes --dev -o ci/backend/dev-requirements.txt
 
 login: # Loginto docker registry
@@ -21,6 +19,7 @@ push: login # Build and push image to registry
 	docker buildx build --push --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t ${DOCKER_USER}/gate_opener:${TAG} -f ci/backend/Dockerfile .
 
 tests: # Run test and calc coverage
+	python opener/create_user.py
 	coverage run -m pytest test
 	coverage report -m --skip-covered --ignore-errors
 
