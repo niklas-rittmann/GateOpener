@@ -19,6 +19,7 @@ push: login # Build and push image to registry
 	docker buildx build --push --platform=linux/arm/v7,linux/amd64 --target ${TARGET} -t ${DOCKER_USER}/gate_opener:${TAG} -f ci/backend/Dockerfile .
 
 tests: # Run test and calc coverage
+	python opener/create_user.py
 	coverage run -m pytest test
 	coverage report -m --skip-covered --ignore-errors
 

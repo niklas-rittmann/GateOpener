@@ -10,8 +10,8 @@ from pydantic.main import BaseModel
 from sqlalchemy.orm.session import Session
 
 from opener.internal.database import User, get_db
+from opener.internal.env import Envs
 
-SECRET_KEY = "050ac200bf94cbe14cd61e7353f5a21782912d3a978c7266a3173b0a793e6ace"
 ALGORITHM = "HS256"
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -70,7 +70,7 @@ def create_access_token(username: str) -> str:
         "sub": username,
         "exp": datetime.utcnow() + timedelta(days=7),
     }
-    encoded_jwt = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(data, Envs().secret_key, algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -79,7 +79,7 @@ async def check_current_user(
 ) -> UserInDB:
     """Check if the token matches a saved user"""
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, Envs().secret_key, algorithms=[ALGORITHM])
     except JWTError:
         raise CREDENTIALS_EXCEPTION
     username = payload.get("sub")

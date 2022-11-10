@@ -24,7 +24,9 @@ FROM base as testing
 
 # Set env to have access to coverage
 ENV PATH="/opt/gate/venv/bin:${PATH}" \
-PYTHONPATH="/opt/gate"
+    PYTHONPATH="/opt/gate" \
+    USERNAME="tests" \
+    PASSWORD="tests"
 
 # Install aditional test requs
 COPY ./test ./test

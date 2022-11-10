@@ -8,6 +8,7 @@ class Envs(BaseSettings):
     """Wrapper for environmental infos"""
 
     gate_pin: int
+    secret_key: str
 
     class Config:
         env_file = ".env"
