@@ -24,6 +24,7 @@ RUN python -m venv venv \
 
 # Copy over source code
 COPY ./opener ./opener
+ENV PYTHONPATH="/opt/gate"
 
 # Run guincorn
 CMD ["./startup.sh"]
@@ -31,8 +32,7 @@ CMD ["./startup.sh"]
 FROM base as testing
 
 # Set env to have access to coverage
-ENV PATH="/opt/gate/venv/bin:${PATH}" \
-    PYTHONPATH="/opt/gate"
+ENV PATH="/opt/gate/venv/bin:${PATH}"
 
 # Install aditional test requs
 COPY ./test ./test
