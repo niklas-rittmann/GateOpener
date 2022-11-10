@@ -11,3 +11,6 @@ services:
     environment:
       - GPIOZERO_PIN_FACTORY=mock
       - GATE_PIN=2
+      - SECRET_KEY=tests
+      - USERNAME=tests
+      - PASSWORD=tests
