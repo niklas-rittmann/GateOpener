@@ -4,7 +4,11 @@ WORKDIR /opt/gate
 
 # Install installation requirements
 RUN apt-get update \
-  && apt-get install -y build-essential libffi-dev
+  && apt-get install -y build-essential libffi-dev curl
+
+# Install rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Copy over requirements
 COPY ci/backend/requirements.txt ./requirements.txt
