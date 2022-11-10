@@ -28,7 +28,7 @@ ENV PATH="/opt/gate/venv/bin:${PATH}" \
 
 # Install aditional test requs
 COPY ./test ./test
-COPY ./ci/backend/dev-requirements.txt ./Makefile ./
+COPY ./ci/backend/dev-requirements.txt ./Makefile ./pyproject.toml ./
 
 # Install dev requirements
 RUN apt-get install make -y \
