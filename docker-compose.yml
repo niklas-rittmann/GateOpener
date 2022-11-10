@@ -13,4 +13,4 @@ services:
       - GATE_PIN=2
       - SECRET_KEY=tests
       - USERNAME=tests
-      - PASSWORD=tests
+      - PASSWORD=test
