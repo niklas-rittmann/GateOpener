@@ -30,6 +30,7 @@ jobs:
           sudo mkdir -p /var/lib/docker
           sudo mount -t tmpfs -o size=10G none /var/lib/docker
           sudo systemctl restart docker
+      - uses: actions/checkout@v2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
