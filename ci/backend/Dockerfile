@@ -6,6 +6,14 @@ WORKDIR /opt/gate
 RUN apt-get update \
   && apt-get install -y build-essential libffi-dev curl
 
+# Install rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN --security=insecure mkdir -p /root/.cargo \
+  && chmod 777 /root/.cargo \
+  && mount -t tmpfs none /root/.cargo \
+  && pip3 install --no-cache-dir cryptography
+
 # Copy over requirements
 COPY ci/backend/requirements.txt ./requirements.txt
 COPY ci/backend/gunicorn_conf.py ./gunicorn_conf.py
