@@ -6,9 +6,8 @@ WORKDIR /opt/gate
 RUN apt-get update \
   && apt-get install -y build-essential libffi-dev curl libssl-dev
 
-# Install rust
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
+# Set env for rust
+ARG PATH="/root/.cargo/bin:${PATH}"
 
 # Copy over requirements
 COPY ci/backend/requirements.txt ./requirements.txt
@@ -16,7 +15,8 @@ COPY ci/backend/gunicorn_conf.py ./gunicorn_conf.py
 COPY ci/backend/startup.sh ./startup.sh
 
 # Create venv and install requirements
-RUN python -m venv venv \
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
+  && python -m venv venv \
   && venv/bin/pip install --upgrade pip \
   && venv/bin/pip install -r requirements.txt \
   && venv/bin/pip install gunicorn \
