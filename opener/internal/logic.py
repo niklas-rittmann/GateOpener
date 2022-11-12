@@ -10,5 +10,5 @@ SWITCH = LED(Envs().gate_pin)
 def trigger_gate() -> None:
     """Trigger the gate pin on pi"""
     SWITCH.on()
-    sleep(0.1)
+    sleep(Envs().trigger_duration)
     SWITCH.off()
