@@ -20,7 +20,7 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
   && venv/bin/pip install --upgrade pip \
   && venv/bin/pip install -r requirements.txt \
   && venv/bin/pip install gunicorn \
-  && rustup self uninstall \
+  && rustup self uninstall -y \
   && rm -rf /root/.cargo
 
 # Copy over source code
