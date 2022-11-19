@@ -30,3 +30,6 @@ docker run --device /dev/gpiomem -p 80:80 -d --env-file .env niklasrittmann/gate
 - [x] Authentification
 - [ ] Enable Https
 - [ ] Add status endpoint
+
+## Disclaimer
+Use at your own risk! Software is always vulnerable!
