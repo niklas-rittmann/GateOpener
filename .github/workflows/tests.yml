@@ -36,4 +36,4 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build test image
-        run: TARGET=base  make push
+        run: make push
