@@ -20,11 +20,18 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
   && venv/bin/pip install --upgrade pip \
   && venv/bin/pip install -r requirements.txt \
   && venv/bin/pip install gunicorn \
+  && rustup self uninstall \
   && rm -rf /root/.cargo
 
 # Copy over source code
 COPY ./opener ./opener
 ENV PYTHONPATH="/opt/gate"
+
+FROM base as prod
+
+# Add non-root user to run webserver
+RUN groupadd -g 1001 server \
+  && useradd -m -u 1500 -s /bin/bash -g server webserver
 
 # Run guincorn
 CMD ["./startup.sh"]
