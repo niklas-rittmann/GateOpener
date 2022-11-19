@@ -11,8 +11,6 @@ ARG PATH="/root/.cargo/bin:${PATH}"
 
 # Copy over requirements
 COPY ci/backend/requirements.txt ./requirements.txt
-COPY ci/backend/gunicorn_conf.py ./gunicorn_conf.py
-COPY ci/backend/startup.sh ./startup.sh
 
 # Create venv and install requirements
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
@@ -25,6 +23,9 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
 
 # Copy over source code
 COPY ./opener ./opener
+COPY ci/backend/gunicorn_conf.py ./gunicorn_conf.py
+COPY ci/backend/startup.sh ./startup.sh
+
 ENV PYTHONPATH="/opt/gate"
 
 FROM base as prod
@@ -32,6 +33,8 @@ FROM base as prod
 # Add non-root user to run webserver
 RUN groupadd -g 1001 server \
   && useradd -m -u 1500 -s /bin/bash -g server webserver
+
+USER webserver
 
 # Run guincorn
 CMD ["./startup.sh"]
