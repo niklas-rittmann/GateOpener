@@ -35,7 +35,6 @@ RUN groupadd -g 1001 server \
   && useradd -m -u 1500 -s /bin/bash -g server webserver
 
 USER webserver
-RUN whoami
 
 # Run guincorn
 CMD ["./startup.sh"]
