@@ -31,8 +31,8 @@ ENV PYTHONPATH="/opt/gate"
 FROM base as prod
 
 # Add non-root user to run webserver
-RUN groupadd -g 1001 server \
-  && useradd -m -u 1500 -s /bin/bash -g server webserver
+RUN groupadd -g 997 gpio \
+  && useradd -m -u 1500 -s /bin/bash -g gpio webserver
 
 USER webserver
 
