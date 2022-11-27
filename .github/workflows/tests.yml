@@ -35,5 +35,7 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+      - name: Pull latest arm v7 image to reduce build time
+        run: docker pull --platform linux/arm/v7  niklasrittmann/gate_opener:latest
       - name: Build test image
         run: make push
