@@ -32,8 +32,7 @@ FROM base as prod
 
 # Add non-root user to run webserver
 RUN groupadd -g 1001 server \
-  && useradd -m -u 1500 -s /bin/bash -g server webserver \
-  && chmod -R o=r /sys/class/gpio/
+  && useradd -m -u 1500 -s /bin/bash -g server webserver
 
 USER webserver
 
